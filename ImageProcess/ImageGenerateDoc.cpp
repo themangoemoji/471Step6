@@ -265,9 +265,9 @@ void CImageGenerateDoc::OnGenerateVerticalbluegradient()
 		// Looping over the columns of the image
 		for (int c = 0; c < m_image.GetWidth(); c++)
 		{
-			m_image[r][c * 3 + 0] = 112;
-			m_image[r][c * 3 + 1] = 25;
-			m_image[r][c * 3 + 2] = 25;
+			m_image[r][c * 3 + 0] = 255;
+			m_image[r][c * 3 + 1] = 0;
+			m_image[r][c * 3 + 2] = 0;
 		}
 	}
 
@@ -277,9 +277,9 @@ void CImageGenerateDoc::OnGenerateVerticalbluegradient()
 		for (int c = 0; c<m_image.GetWidth(); c++)
 		{
 			double	gain =  double(c) / m_image.GetWidth();
-			m_image[r][c * 3] = BYTE(2.2 * gain *	m_image[r][c * 3] );
-			m_image[r][c * 3 + 1] = BYTE(2.2 * gain * m_image[r][c * 3 + 1]);
-			m_image[r][c * 3 + 2] = BYTE(2.2 * gain * m_image[r][c * 3 + 2]);
+			m_image[r][c * 3] = BYTE( gain *	m_image[r][c * 3] );
+			m_image[r][c * 3 + 1] = BYTE(m_image[r][c * 3 + 1]);
+			m_image[r][c * 3 + 2] = BYTE(m_image[r][c * 3 + 2]);
 		}
 	}
 
@@ -307,10 +307,7 @@ void CImageGenerateDoc::OnGenerateDiagonalgradient()
 	{
 		for (int c = 0; c<m_image.GetWidth(); c++)
 		{
-			//double	gain = double(r) / m_image.GetHeight()/*	*	double(c) / m_image.GetWidth()*/;
-			//m_image[r][c * 3] = BYTE(gain);				// Blue
-			//m_image[r][c * 3 + 1] = BYTE(((255 * (m_image.GetHeight() - c))/gain));		// Green
-			//m_image[r][c * 3 + 2] = BYTE((255 * c) / gain);		// Red
+
 			double gain = double(r) / m_image.GetHeight() *
 				double(c) / m_image.GetWidth();
 			m_image[r][c * 3] = BYTE(0);
