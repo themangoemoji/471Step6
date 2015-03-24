@@ -7,6 +7,8 @@
 #if !defined(AFX_IMAGEPROCESSDOC_H__9DC9E63D_7AAC_11D3_B40B_00C04F53D1ED__INCLUDED_)
 #define AFX_IMAGEPROCESSDOC_H__9DC9E63D_7AAC_11D3_B40B_00C04F53D1ED__INCLUDED_
 
+#include <algorithm>
+#include <vector>
 #include "graphics/GrImage.h"
 #include "HPoint.h"
 
@@ -35,6 +37,7 @@ public:
 public:
     void MousePress(int x, int y);
     void MouseMove(int x, int y);
+	int FindMedian(std::vector<int> vec);
 
     virtual ~CImageProcessDoc();
 #ifdef _DEBUG
@@ -77,12 +80,14 @@ private:
 
     BOOL     m_nearest;
     BOOL     m_transparent;
+
 public:
 	afx_msg void OnFilterDim();
 	afx_msg void OnFilterTint();
 	afx_msg void OnProcessLowpassfilter();
 	afx_msg void OnFilterLowpassfilter();
 	afx_msg void OnFilterMonochorme();
+	afx_msg void OnFilterMedianfilter();
 };
 
 /////////////////////////////////////////////////////////////////////////////

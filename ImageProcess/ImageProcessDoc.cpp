@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CImageProcessDoc, CDocument)
 	ON_COMMAND(ID_FILTER_TINT, &CImageProcessDoc::OnFilterTint)
 	ON_COMMAND(ID_FILTER_LOWPASSFILTER, &CImageProcessDoc::OnFilterLowpassfilter)
 	ON_COMMAND(ID_FILTER_MONOCHORME, &CImageProcessDoc::OnFilterMonochorme)
+	ON_COMMAND(ID_FILTER_MEDIANFILTER, &CImageProcessDoc::OnFilterMedianfilter)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -699,4 +700,56 @@ void CImageProcessDoc::OnFilterMonochorme()
 
 	UpdateAllViews(NULL);
 	EndWaitCursor();
+}
+
+
+
+
+int CImageProcessDoc::FindMedian(std::vector<int> vec) 
+{
+	if (vec.empty()) return 0;
+	else {
+		std::sort(vec.begin(), vec.end());
+		if (vec.size() % 2 == 0)
+			return (vec[vec.size() / 2 - 1] + vec[vec.size() / 2]) / 2;
+		else
+			return vec[vec.size() / 2];
+	}
+}
+
+void CImageProcessDoc::OnFilterMedianfilter()
+{
+	// Allocates an output image the same size as the input image
+	m_image2.SetSameSize(m_image1);
+	vector<int> pixel_vector;
+
+	for (int r = 0; r<m_image2.GetHeight(); r++)
+	{
+		for (int c = 0; c<m_image2.GetWidth() * 3; c++)
+		{
+			int pixel = 0;
+			for (int i = -1; i <= 1; i++)
+			{
+				if ((r + i) >= 0 && (r + i) < m_image2.GetHeight())
+				{
+					for (int j = -3; j <= 3; j += 3)
+					{
+						if ((c + j) >= 0 && (c + j) < m_image2.GetWidth() * 3)
+							pixel_vector.push_back(m_image1[r + i][c + j]);
+					}
+				}
+			}
+			int median = FindMedian(pixel_vector);	
+			if (median == 9)
+			{
+				// suck my ass
+				pixel_vector.clear();
+			}
+			m_image2[r][c] = BYTE(median);
+			pixel_vector.clear();
+		}
+	}
+
+	// Force a redraw
+	UpdateAllViews(NULL);
 }
