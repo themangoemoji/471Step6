@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CImageProcessDoc, CDocument)
 	ON_COMMAND(ID_FILTER_TINT, &CImageProcessDoc::OnFilterTint)
 	ON_COMMAND(ID_FILTER_LOWPASSFILTER, &CImageProcessDoc::OnFilterLowpassfilter)
 	ON_COMMAND(ID_FILTER_MONOCHORME, &CImageProcessDoc::OnFilterMonochorme)
+	ON_COMMAND(ID_FILTER_MEDIANFILTER, &CImageProcessDoc::OnFilterMedianfilter)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -699,4 +700,36 @@ void CImageProcessDoc::OnFilterMonochorme()
 
 	UpdateAllViews(NULL);
 	EndWaitCursor();
+}
+
+
+void CImageProcessDoc::OnFilterMedianfilter()
+{
+	// Allocates an output image the same size as the input image
+	m_image2.SetSameSize(m_image1);
+	
+
+	for (int r = 0; r<m_image2.GetHeight(); r++)
+	{
+		for (int c = 0; c<m_image2.GetWidth() * 3; c++)
+		{
+			int pixel = 0;
+			for (int i = -1; i <= 1; i++)
+			{
+				if ((r + i) >= 0 && (r + i) < m_image2.GetHeight())
+				{
+					for (int j = -3; j <= 3; j += 3)
+					{
+						if ((c + j) >= 0 && (c + j) < m_image2.GetWidth() * 3)
+							pixel += m_image1[r + i][c + j];
+					}
+				}
+			}
+
+			m_image2[r][c] = BYTE(pixel / 9);
+		}
+	}
+
+	// Force a redraw
+	UpdateAllViews(NULL);
 }

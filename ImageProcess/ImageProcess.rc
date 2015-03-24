@@ -145,6 +145,7 @@ BEGIN
         MENUITEM "&Tint",                       ID_FILTER_TINT
         MENUITEM "&Lowpass Filter",             ID_FILTER_LOWPASSFILTER
         MENUITEM "&Monochorme",                 ID_FILTER_MONOCHORME
+        MENUITEM "&Median Filter",              ID_FILTER_MEDIANFILTER
     END
     POPUP "&Mouse"
     BEGIN

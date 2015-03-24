@@ -83,6 +83,7 @@ public:
 	afx_msg void OnProcessLowpassfilter();
 	afx_msg void OnFilterLowpassfilter();
 	afx_msg void OnFilterMonochorme();
+	afx_msg void OnFilterMedianfilter();
 };
 
 /////////////////////////////////////////////////////////////////////////////
