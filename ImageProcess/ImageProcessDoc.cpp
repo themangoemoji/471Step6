@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CImageProcessDoc, CDocument)
 	ON_COMMAND(ID_FILTER_DIM, &CImageProcessDoc::OnFilterDim)
 	ON_COMMAND(ID_FILTER_TINT, &CImageProcessDoc::OnFilterTint)
 	ON_COMMAND(ID_FILTER_LOWPASSFILTER, &CImageProcessDoc::OnFilterLowpassfilter)
+	ON_COMMAND(ID_FILTER_MONOCHORME, &CImageProcessDoc::OnFilterMonochorme)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -672,4 +673,30 @@ void CImageProcessDoc::OnFilterLowpassfilter()
 
 	// Force a redraw
 	UpdateAllViews(NULL);
+}
+
+/**
+ * \brief Monochrome Filter
+ * Makes image monochrome by averaging pixels
+ */
+void CImageProcessDoc::OnFilterMonochorme()
+{
+	BeginWaitCursor();
+
+	// Make the output image the same size as the input image
+	m_image2.SetSameSize(m_image1);
+
+	for (int r = 0; r < m_image2.GetHeight(); r++)
+	{
+		for (int c = 0; c < m_image2.GetWidth(); c++)
+		{
+			double average = (BYTE(m_image1[r][c * 3]) + BYTE(m_image1[r][c * 3 + 1]) + BYTE(m_image1[r][c * 3 + 2])) / 3;
+			m_image2[r][c * 3] = BYTE(average);       // Blue
+			m_image2[r][c * 3 + 1] = BYTE(average);   // Green
+			m_image2[r][c * 3 + 2] = BYTE(average);   // Red
+		}
+	}
+
+	UpdateAllViews(NULL);
+	EndWaitCursor();
 }
