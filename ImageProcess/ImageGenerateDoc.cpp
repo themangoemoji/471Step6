@@ -40,6 +40,9 @@ BEGIN_MESSAGE_MAP(CImageGenerateDoc, CDocument)
 	ON_COMMAND(ID_GENERATE_HORIZONTALGRADIENT, &CImageGenerateDoc::OnGenerateHorizontalgradient)
 	ON_COMMAND(ID_GENERATE_VERTICALBLUEGRADIENT, &CImageGenerateDoc::OnGenerateVerticalbluegradient)
 	ON_COMMAND(ID_GENERATE_DIAGONALGRADIENT, &CImageGenerateDoc::OnGenerateDiagonalgradient)
+	ON_COMMAND(ID_GENERATE_HORIZONTALLINE, &CImageGenerateDoc::OnGenerateHorizontalline)
+	ON_COMMAND(ID_GENERATE_VERTICALLINE, &CImageGenerateDoc::OnGenerateVerticalline)
+	ON_COMMAND(ID_GENERATE_DIAGONALLINE, &CImageGenerateDoc::OnGenerateDiagonalline)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -317,4 +320,65 @@ void CImageGenerateDoc::OnGenerateDiagonalgradient()
 	}
 
 	UpdateAllViews(NULL);
+}
+
+
+void CImageGenerateDoc::OnGenerateHorizontalline()
+{
+	int r = 100;
+	for (int c = 0; c<m_image.GetWidth(); c++)
+	{
+		m_image[r][c * 3 + 0] = 0;
+		m_image[r][c * 3 + 1] = 0;
+		m_image[r][c * 3 + 2] = 255;
+	}
+	UpdateAllViews(NULL);
+}
+
+
+void CImageGenerateDoc::OnGenerateVerticalline()
+{
+	int c = 100;
+	for (int r = 0; r<m_image.GetHeight(); r++)
+	{
+		m_image[r][c] = 0;
+		m_image[r][c ] = 0;
+		m_image[r][c] = 255;
+	}
+	c = 103;
+	for (int r = 0; r<m_image.GetHeight(); r++)
+	{
+		m_image[r][c] = 0;
+		m_image[r][c] = 0;
+		m_image[r][c] = 255;
+	}
+	UpdateAllViews(NULL);
+}
+
+
+void CImageGenerateDoc::OnGenerateDiagonalline()
+{
+
+	int rise = 100;
+	int run = 200;
+	double slope = (1 / 3);
+
+	for (int r = 0; r<m_image.GetHeight(); r++)
+	{
+		for (int c = 0; c<m_image.GetWidth(); c++)
+		{
+			if (int(slope * c + 100) == r)
+			{
+				m_image[r][c] = 0;
+				m_image[r][c] = 0;
+				m_image[r][c] = 255;
+				run++; // increment the run slop
+				rise += int(slope);
+			}
+		}	
+		
+	}
+
+	UpdateAllViews(NULL);
+	 
 }

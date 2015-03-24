@@ -193,6 +193,9 @@ BEGIN
         MENUITEM "&Horizontal Gradient",        ID_GENERATE_HORIZONTALGRADIENT
         MENUITEM "&Vertical Blue Gradient",     ID_GENERATE_VERTICALBLUEGRADIENT
         MENUITEM "&Diagonal Gradient",          ID_GENERATE_DIAGONALGRADIENT
+        MENUITEM "&Horizontal Line",            ID_GENERATE_HORIZONTALLINE
+        MENUITEM "&Vertical Line",              ID_GENERATE_VERTICALLINE
+        MENUITEM "&Diagonal Line",              ID_GENERATE_DIAGONALLINE
     END
     POPUP "&Mouse"
     BEGIN
