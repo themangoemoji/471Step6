@@ -250,13 +250,26 @@ void CImageGenerateDoc::OnGenerateFillslategray()
 
 void CImageGenerateDoc::OnGenerateHorizontalgradient()
 {
+	// First, generate a solid blue
+	for (int r = 0; r < m_image.GetHeight(); r++)
+	{
+		// Looping over the columns of the image
+		for (int c = 0; c < m_image.GetWidth(); c++)
+		{
+			m_image[r][c * 3 + 0] = 255;
+			m_image[r][c * 3 + 1] = 255;
+			m_image[r][c * 3 + 2] = 255;
+		}
+	}
+	// First, generate a solid blue
 	for (int r = 0; r<m_image.GetHeight(); r++)
 	{
-		for (int c = 0; c<m_image.GetHeight(); c++)
+		for (int c = 0; c<m_image.GetWidth(); c++)
 		{
 			m_image[r][c] = BYTE(float(c) / float(m_image.GetWidth() - 1) * 255);
 		}
 	}
+	UpdateAllViews(NULL);
 }
 
 
