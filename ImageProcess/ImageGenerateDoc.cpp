@@ -341,8 +341,7 @@ void CImageGenerateDoc::OnGenerateHorizontalline()
 	int r = 100;
 	for (int c = 0; c<m_image.GetWidth(); c++)
 	{
-		m_image[r][c * 3 + 0] = 0;
-		m_image[r][c * 3 + 1] = 0;
+
 		m_image[r][c * 3 + 2] = 255;
 	}
 	UpdateAllViews(NULL);
@@ -354,15 +353,13 @@ void CImageGenerateDoc::OnGenerateVerticalline()
 	int c = 100;
 	for (int r = 0; r<m_image.GetHeight(); r++)
 	{
-		m_image[r][c] = 0;
-		m_image[r][c ] = 0;
+
 		m_image[r][c] = 255;
 	}
 	c = 103;
 	for (int r = 0; r<m_image.GetHeight(); r++)
 	{
-		m_image[r][c] = 0;
-		m_image[r][c] = 0;
+
 		m_image[r][c] = 255;
 	}
 	UpdateAllViews(NULL);
@@ -376,20 +373,10 @@ void CImageGenerateDoc::OnGenerateDiagonalline()
 	int run = 200;
 	double slope = (1 / 3);
 
-	for (int r = 0; r<m_image.GetHeight(); r++)
-	{
-		for (int c = 0; c<m_image.GetWidth(); c++)
-		{
-			if (int(slope * c + 100) == r)
-			{
-				m_image[r][c] = 0;
-				m_image[r][c] = 0;
-				m_image[r][c] = 255;
-				run++; // increment the run slop
-				rise += int(slope);
-			}
-		}	
-		
+	for (int r = 200,  c = 100; r < 400; r+=1 , c += 3)
+	{		
+			m_image[r][c] = 255;
+			
 	}
 
 	UpdateAllViews(NULL);
