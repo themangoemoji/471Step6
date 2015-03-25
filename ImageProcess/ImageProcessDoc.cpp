@@ -703,11 +703,25 @@ void CImageProcessDoc::OnFilterMonochorme()
 }
 
 
+
+
+int CImageProcessDoc::FindMedian(std::vector<int> vec) 
+{
+	if (vec.empty()) return 0;
+	else {
+		std::sort(vec.begin(), vec.end());
+		if (vec.size() % 2 == 0)
+			return (vec[vec.size() / 2 - 1] + vec[vec.size() / 2]) / 2;
+		else
+			return vec[vec.size() / 2];
+	}
+}
+
 void CImageProcessDoc::OnFilterMedianfilter()
 {
 	// Allocates an output image the same size as the input image
 	m_image2.SetSameSize(m_image1);
-	
+	vector<int> pixel_vector;
 
 	for (int r = 0; r<m_image2.GetHeight(); r++)
 	{
@@ -721,12 +735,18 @@ void CImageProcessDoc::OnFilterMedianfilter()
 					for (int j = -3; j <= 3; j += 3)
 					{
 						if ((c + j) >= 0 && (c + j) < m_image2.GetWidth() * 3)
-							pixel += m_image1[r + i][c + j];
+							pixel_vector.push_back(m_image1[r + i][c + j]);
 					}
 				}
 			}
-
-			m_image2[r][c] = BYTE(pixel / 9);
+			int median = FindMedian(pixel_vector);	
+			if (median == 9)
+			{
+				// suck my ass
+				pixel_vector.clear();
+			}
+			m_image2[r][c] = BYTE(median);
+			pixel_vector.clear();
 		}
 	}
 
